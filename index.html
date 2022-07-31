@@ -45,10 +45,31 @@
     </main>
 </body>
 <script>
+
+    const eyeActive = document.getElementById('dontSeePsw')
+    const eyeUnactive = document.getElementById('seePsw')
     const login = document.getElementById('login');
     const email = document.getElementById('email');
     const password = document.getElementById('password')
     const error = document.querySelectorAll('.error')
+
+//Event Listener
+
+eyeActive.addEventListener('click',()=>{
+    console.log('a')
+    eyeActive.style.display = 'none'
+    eyeUnactive.style.display = 'inline'
+    password.setAttribute('type', 'password')
+})
+
+eyeUnactive.addEventListener('click',()=>{
+    console.log('b')
+    eyeActive.style.display = 'inline'
+    eyeUnactive.style.display = 'none'
+    password.setAttribute('type', 'text')
+})
+
+
 
 //Autenticar
     login.addEventListener('submit', (e) => {

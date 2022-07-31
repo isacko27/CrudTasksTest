@@ -65,7 +65,7 @@
                 <p class="description">Descripcion</p>
                 <p class="ctn-text">${card.description}</p>
                 <div class="ctn-status">
-                    <select name="status" class="status">
+                    <select onclick="hola('pato')" name="status" class="status">
                         <option value="1">Iniciada</option>
                         <option value="2">Terminada</option>
                         <option value="3">En pausa</option>
@@ -97,7 +97,27 @@ cancelNewTask[0].addEventListener('click', closeModal1)
 cancelNewTask[1].addEventListener('click', closeModal1)
 
 
-function openModal1(tipe){
+function statusC(id,stat){
+    let changer = document.querySelector(`.stat${id}`)
+
+    let myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", 'Bearer ' + token);
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    redirect: 'follow'
+    };
+
+    fetch(`https://tasks-crud.academlo.com/api/tasks/${id}/status/${changer.value}`, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+    getCards(token)
+}
+
+function openModal1(){
     newTaskModal.style.display="flex"
 }
 function closeModal1(){
@@ -137,7 +157,7 @@ function getCards(key){
                 <p class="description">Descripcion</p>
                 <p class="ctn-text">${card.description}</p>
                 <div class="ctn-status">
-                    <select name="status" class="status">
+                    <select value='${card.status_id}' onclick="statusC(${card.id},${card.status_id})" name="status" class="status stat${card.id}">
                         <option value="1">Iniciada</option>
                         <option value="2">Terminada</option>
                         <option value="3">En pausa</option>
