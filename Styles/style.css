@@ -1,0 +1,138 @@
+:root {
+    --main-darkblue: #0F0F2D;
+    --main-green: #2EC76D;
+    --main-white: white;
+    --main-gray: rgb(231, 231, 231);
+}
+
+* {
+    margin: 0;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;
+}
+body {
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.background {
+    display: flex;
+    width: 100vh;
+    height: inherit;
+    position: absolute;
+
+}
+.background .up {
+    position: absolute;
+    z-index: -1;
+    width: 30em;
+}
+.background .down {
+    position: absolute;
+    z-index: -1;
+    left: 60%;
+    width: 65em;
+}
+.container {
+    box-shadow: 0px 0px 15px -5px var(--main-darkblue);
+    background-color: var(--main-white);
+    display: grid;
+    grid-auto-rows: auto auto;
+    padding: 3em 3.5em;
+    width: 17em;
+    margin-top: 5em;
+    border-radius: 5px;
+}
+.ctn-form-up {
+    display: flex;
+    min-height: 2.3em;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    font-size: 0.8rem;
+
+}
+.ctn-form-up  a{
+    background-color: var(--main-gray);
+    text-decoration: none;
+    color: var(--main-darkblue);
+    width: 100%;
+    text-align: center;
+    margin-left: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ctn-form-up .first { 
+    background-color: var(--main-green);
+    color: var(--main-white);
+    margin-right: 1px;
+    
+}
+.ctn-form h1 {
+    color: var(--main-darkblue);
+}
+.ctn-form form{
+    display: flex;
+    flex-direction: column;
+}
+.ctn-form form input{
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    border:1px solid var(--main-gray);
+    border-radius: 5px;
+    padding: 13px;
+}
+.ctn-form form span{
+    font-size: 0.8rem;
+    margin: 2em 0 5px 0;
+}
+.ctn-form form .forgot{
+    display: flex;
+    justify-content: flex-end;
+}
+.ctn-form form .forgot a{
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px 0 2em 0;
+    text-decoration: none;
+    font-size: 0.8rem;
+    color: var(--main-darkblue);
+}
+.ctn-form .submit {
+    padding: 1em;
+    outline: none;
+    border: none;
+    background-color: var(--main-green);
+    color: var(--main-white);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.ctn-form .submit:hover {
+    opacity: 0.9;
+}
+.password {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+.password input{
+    width: 100%;
+}
+.eye {
+    position: absolute;
+    margin-right: 0.6em;
+    margin-top: 5px;
+    cursor: pointer;
+}
+#seePsw {
+
+}
+#dontSeePsw {
+    display: none;
+}

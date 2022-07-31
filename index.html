@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/style.css">
+    <script src="Scripts/main.js"></script>
+    <title>Crud Tareas</title>
+</head>
+<body>
+    <div class="background">
+        <img class="down" src="Styles/Assets/Vector 3.svg">
+        <img class="up" src="Styles/Assets/Vector 4.svg">
+    </div>
+    <main>
+        <section class="container">
+            <article class="ctn-form-up">
+                <a class="first" href="#">Iniciar sesion</a>
+                <a class="second" href="#">Registrarme</a>
+            </article>
+            <article class="ctn-form">
+                <form id="login">
+                    <h1>Inicio de sesion</h1>
+                    <span>Correo electronico</span>
+                    <input type="email" name="email" id="email" placeholder="Escribe tu correo electronico">
+                    <span>Contraseña</span>
+                    <div class="password">
+                        <input type="password" name="password" id="password" placeholder="Al menos 8 caracteres">
+                        <div class="eye">
+                            <img id="seePsw" src="./Styles/Assets/Eye.svg" alt="">
+                            <img id="dontSeePsw" src="./Styles/Assets/Eyefree.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="forgot">
+                        <a href="#">Olvide mi contraseña</a>
+                    </div>
+                    
+                    <button type="submit" class="submit">Aceptar</button>
+                </form>
+            </article>
+        </section>
+    </main>
+</body>
+<script>
+    const login = document.getElementById('login');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password')
+
+//Autenticar
+    login.addEventListener('submit', (e) => {
+        e.preventDefault();
+        em = email.value
+        pass = password.value
+        const API_URL = 'https://tasks-crud.academlo.com/api/auth/login'
+        var myHeaders = new Headers();
+        myHeaders.append("Accept", "application/json");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("email", em);
+        urlencoded.append("password", pass);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+        };
+
+        fetch("https://tasks-crud.academlo.com/api/auth/login", requestOptions)
+        .then(response => response.text())
+        .then(result =>{
+            if(result){
+            localStorage.setItem("key",result)
+            window.location.href = '/tasks.html'
+            console.log(result)}
+        })
+        .catch(error => console.log('error', error));
+    })
+
+
+
+</script>
+</html>

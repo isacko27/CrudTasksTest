@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/b096d3ee4f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./Styles/tasks.css">
+    <title>Crud</title>
+</head>
+<body>
+    <div class="ctn-modal">
+        <section>
+            <p class="return"><b>X</b></p>
+            <h3 class="title">Agregar Tarea</h3>
+            <p>Nombre de la tarea</p>
+            <input id="titleTask" type="text" placeholder="Nombre de la tarea">
+            <p class="count">0/50</p>
+            <p>Descripcion</p>           
+            <textarea id="descTask" placeholder="Descripcion de la tarea" name="description" id="card-description" cols="30" rows="5"></textarea>
+            <p class="count">0/150</p>
+            <article class="buttons">
+                <button class="cancel">Cancelar</button>
+                <button onclick="createTask()" class="Accept">Guardar cambios</button>
+            </article>
+        </section>
+    </div>
+    <div class="ctn-modal modal-edit">
+        <section>
+            <p class="return"><b>X</b></p>
+            <h3 class="title">Editar Tarea</h3>
+            <p>Nombre de la tarea</p>
+            <input id="titleTask2" type="text" placeholder="Nombre de la tarea">
+            <p class="count">0/50</p>
+            <p>Descripcion</p>           
+            <textarea id="descTask2" placeholder="Descripcion de la tarea" name="description" id="card-description" cols="30" rows="5"></textarea>
+            <p class="count">0/150</p>
+            <article class="buttons">
+                <button class="cancel">Cancelar</button>
+                <button onclick="acceptEdit()" class="Accept">Guardar cambios</button>
+            </article>
+        </section>
+    </div>
+    <header>
+        <h1>Tareas</h1>
+        <div class="ctn-search">
+            <div class="ico-search">
+                <img src="./Styles/Assets/search 1.svg">
+            </div>
+            <input type="text" name="search" id="search" placeholder="Buscar tarea">
+            <button class="btn-newTask"><i class="fa-solid fa-plus-large">+</i> Crear nueva tarea</button>
+        </div>
+    </header>
+    <section class="wrapper">
+        <article class="task id${card.id} status${card.status_id}">
+            <div hidden class="status_id">${card.status_id}</div>
+            <div hidden class="card_id">${card.id}</div>
+            <section class="title">
+                <h2>${card.name}</h2>
+                <button onclick="editTask()" class="edit">
+                    <img src="./Styles/Assets/edit-2 1.svg" alt="">
+                </button>
+            </section>
+            <section class="text">
+                <p class="description">Descripcion</p>
+                <p class="ctn-text">${card.description}</p>
+                <div class="ctn-status">
+                    <select name="status" class="status">
+                        <option value="1">Iniciada</option>
+                        <option value="2">Terminada</option>
+                        <option value="3">En pausa</option>
+                    </select>
+                </div>
+            </section>
+        </article>
+    </section>
+</body>
+<script>
+
+let idCard;
+const editModal = document.querySelector('.modal-edit')
+const iconEdit = document.querySelector('.edit')
+const modalReturn = document.querySelectorAll('.return')
+const btnTask = document.querySelector('.btn-newTask')
+const newTaskModal = document.querySelector('.ctn-modal')
+const cancelNewTask = document.querySelectorAll('.cancel')
+const container = document.querySelector('.wrapper')
+const token = localStorage.getItem("key");
+const cardColor = document.querySelector('.task')
+const cards_id = []
+
+
+btnTask.addEventListener('click', openModal1)
+modalReturn[0].addEventListener('click', closeModal1)
+modalReturn[1].addEventListener('click', closeModal1)
+cancelNewTask[0].addEventListener('click', closeModal1)
+cancelNewTask[1].addEventListener('click', closeModal1)
+
+
+function openModal1(tipe){
+    newTaskModal.style.display="flex"
+}
+function closeModal1(){
+    newTaskModal.style.display="none"
+    editModal.style.display="none"
+}
+
+
+function getCards(key){
+    let myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", 'Bearer ' + key);
+
+    let requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+    };
+
+    fetch("https://tasks-crud.academlo.com/api/tasks", requestOptions)
+    .then(response => response.text())
+    .then(cards =>{
+        container.innerHTML = ''
+        for (card of eval(cards)){
+            console.log(card)
+            container.innerHTML += `
+        <article class="task id${card.id} status${card.status_id}">
+            <div hidden class="status_id">${card.status_id}</div>
+            <div hidden class="card_id">${card.id}</div>
+            <section class="title">
+                <h2>${card.name}</h2>
+                <button onclick="editTask(${card.id})" class="edit">
+                    <img src="./Styles/Assets/edit-2 1.svg" alt="">
+                </button>
+            </section>
+            <section class="text">
+                <p class="description">Descripcion</p>
+                <p class="ctn-text">${card.description}</p>
+                <div class="ctn-status">
+                    <select name="status" class="status">
+                        <option value="1">Iniciada</option>
+                        <option value="2">Terminada</option>
+                        <option value="3">En pausa</option>
+                    </select>
+                </div>
+            </section>
+        </article>`
+        cards_id.push(card.id)
+        }
+    })
+    .catch(error => console.log('error', error));
+}
+
+getCards(token)
+
+const createTask = ()=>{
+    const title = document.getElementById('titleTask')
+    const description= document.getElementById('descTask')
+    let myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", 'Bearer ' + token);
+
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("name", title.value);
+    urlencoded.append("description", description.value);
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+    };
+
+    fetch("https://tasks-crud.academlo.com/api/tasks", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+    getCards(token)
+    closeModal()
+}
+
+function editTask(id){
+    editModal.style.display = 'flex'
+    console.log(id)
+    idCard = id
+}
+
+function acceptEdit(){
+    const title = document.getElementById('titleTask2')
+    const description= document.getElementById('descTask2')
+
+    let myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    myHeaders.append("Authorization", 'Bearer ' + token);
+
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("name", title.value);
+    urlencoded.append("description", description.value);
+
+    var requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: 'follow'
+    };
+
+    fetch(`https://tasks-crud.academlo.com/api/tasks/${idCard}`, requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+    getCards(token)
+    closeModal1()
+}
+
+
+
+
+
+</script>
+</html>
