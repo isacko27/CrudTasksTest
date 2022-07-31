@@ -24,6 +24,7 @@
                     <h1>Inicio de sesion</h1>
                     <span>Correo electronico</span>
                     <input type="email" name="email" id="email" placeholder="Escribe tu correo electronico">
+                    <span class="error"></span>
                     <span>Contraseña</span>
                     <div class="password">
                         <input type="password" name="password" id="password" placeholder="Al menos 8 caracteres">
@@ -32,6 +33,7 @@
                             <img id="dontSeePsw" src="./Styles/Assets/Eyefree.svg" alt="">
                         </div>
                     </div>
+                    <span class="error"></span>
                     <div class="forgot">
                         <a href="#">Olvide mi contraseña</a>
                     </div>
@@ -46,9 +48,11 @@
     const login = document.getElementById('login');
     const email = document.getElementById('email');
     const password = document.getElementById('password')
+    const error = document.querySelectorAll('.error')
 
 //Autenticar
     login.addEventListener('submit', (e) => {
+        let token;
         e.preventDefault();
         em = email.value
         pass = password.value
@@ -67,15 +71,33 @@
         redirect: 'follow'
         };
 
-        fetch("https://tasks-crud.academlo.com/api/auth/login", requestOptions)
-        .then(response => response.text())
-        .then(result =>{
-            if(result){
-            localStorage.setItem("key",result)
-            window.location.href = '/tasks.html'
-            console.log(result)}
+        let response = fetch("https://tasks-crud.academlo.com/api/auth/login", requestOptions)
+        .then(function(response){
+            res(response)
         })
-        .catch(error => console.log('error', error));
+        const res = (res)=>{
+            if(res.status == 200){
+                res.text().then(result => localStorage.setItem("key",result))
+                window.location.href = '/tasks.html'
+            } else {
+                res.text().then(result => failed(result))
+            }
+        function failed(e){
+            if(e.length < 30){
+            console.log(e.length)
+            console.log(error)
+            error[1].innerHTML = e
+            error[0].innerHTML = e
+            error[0].style.display = 'block'
+            error[1].style.display = 'block'
+            } else {
+            error[1].innerHTML = "Ingresa datos validos"
+            error[0].innerHTML = "Ingresa datos validos"
+            error[0].style.display = 'block'
+            }
+        }    
+            
+        }
     })
 
 

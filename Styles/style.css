@@ -136,3 +136,9 @@ main {
 #dontSeePsw {
     display: none;
 }
+
+.error {
+    display: none;
+    color: red;
+    margin: 1px!important;
+}
