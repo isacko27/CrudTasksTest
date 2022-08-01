@@ -15,22 +15,48 @@ body {
     margin-bottom: 2em;
 }
 
+
 header {
     display: flex;
-    padding: 3em 3em 4em 3em;
+    padding: 1em 3em 4em 3em;
     align-items: center;
+}
+
+.ctn-user {
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0;
+    height: 3.5em;
+    margin-top: 1.5em;
+}
+
+.ctn-user .circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+    background-color: var(--main-darkblue);
+    padding: 0;
+    margin-right: 4em;
+}
+
+.ctn-user img{
+    width: 2.5em;
 }
 
 header h1 {
     color: var(--main-darkblue);
     float: left;
+    font-size: 3em;
 }
 
 header div {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    min-height: 2em;
+    min-height: 2.5em;
 }
 
 
@@ -60,8 +86,12 @@ header button i {
 .ico-search {
     position: relative;
     left: calc(0% + 30px);
-    width: 10px;
+    max-width: 25px;
     cursor: text;
+}
+
+.ico-search img {
+    max-width: 25px;
 }
 
 .wrapper {

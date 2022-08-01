@@ -9,6 +9,9 @@
     <title>Crud</title>
 </head>
 <body>
+    <header class="ctn-user">
+        <a href="index.html" class="circle"><img src="./Styles/Assets/user.svg" alt=""></a>
+    </header>
     <div class="ctn-modal">
         <section>
             <p class="return"><b>X</b></p>
@@ -65,7 +68,7 @@
                 <p class="description">Descripcion</p>
                 <p class="ctn-text">${card.description}</p>
                 <div class="ctn-status">
-                    <select onclick="hola('pato')" name="status" class="status">
+                    <select onclick="hola('pato')" onchange="this[selectedIndex].value" name="status" class="status">
                         <option value="1">Iniciada</option>
                         <option value="2">Terminada</option>
                         <option value="3">En pausa</option>
